@@ -97,7 +97,8 @@
             ["Following", "https://tools.2807.eu/follows?user=%s"],
             ["Mods", "https://tools.2807.eu/mods?channel=%s"],
             ["VIPs", "https://tools.2807.eu/vips?channel=%s"],
-            ["Founders", "https://tools.2807.eu/founders?channel=%s"]
+            ["Founders", "https://tools.2807.eu/founders?channel=%s"],
+            ["Nk's TwitchTools Github", "https://github.com/nkgaming-twitch/twitchtools"]
         ];
 
         const navbar = document.getElementById('navbar');
@@ -119,6 +120,8 @@
 
                 if(index === 0) {
                     btn.classList.add('disabled');
+                } else if(index === sites.length - 1) {
+                    btn.onclick = () => window.open(site[1], '_blank');
                 } else {
                     btn.onclick = () => {
                         iframe.src = site[1].replace('%s', encodeURIComponent(username));
