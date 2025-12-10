@@ -2,7 +2,7 @@
 // @name         Nk's TwitchTools Button
 // @namespace    http://tampermonkey.net/
 // @version      1.1
-// @description  Add a Nk'sTwitchTools button on a Twitch channel page
+// @description  Add a Nk's TwitchTools button on a Twitch channel page
 // @author       Nk (tr.ee/NkGaming)
 // @match        https://www.twitch.tv/*
 // @grant        none
