@@ -16,7 +16,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            height: 35px;
+            height: 36px;
             width: 100%;
             border-bottom: 1px solid grey;
         }
@@ -34,6 +34,13 @@
         }
         #navbar button.active {
             background-color: #1e90ff;
+        }
+        #navbar button.disabled {
+            cursor: default;
+            color: #fff;
+        }
+        #navbar button.disabled:hover {
+            background-color: inherit;
         }
         #content {
             width: 100%;
@@ -84,7 +91,8 @@
         let username = new URLSearchParams(window.location.search).get('u') || '';
 
         const sites = [
-            ["Twitch Tracker", "https://twitchtracker.com/%s"],
+            ["%s's Twitch Channel", ""],
+            ["TwitchTracker", "https://twitchtracker.com/%s"],
             ["SullyGnome", "https://sullygnome.com/channel/%s"],
             ["Following", "https://tools.2807.eu/follows?user=%s"],
             ["Mods", "https://tools.2807.eu/mods?channel=%s"],
@@ -98,54 +106,54 @@
         const input = document.getElementById('username-input');
         const submitBtn = document.getElementById('username-submit');
 
-        function setupPage()
-        {
+        function setupPage() {
             promptContainer.style.display = 'none';
             navbar.style.display = 'flex';
             iframe.style.display = 'block';
 
             let buttons = [];
-            
-            sites.forEach((site) => {
+
+            sites.forEach((site, index) => {
                 const btn = document.createElement('button');
-                btn.textContent = site[0];
-                btn.onclick = () => {
-                    iframe.src = site[1].replace('%s', encodeURIComponent(username));
-                    buttons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                };
+                btn.textContent = site[0].replace('%s', encodeURIComponent(username));
+
+                if(index === 0) {
+                    btn.classList.add('disabled');
+                } else {
+                    btn.onclick = () => {
+                        iframe.src = site[1].replace('%s', encodeURIComponent(username));
+                        buttons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    };
+                }
+
                 navbar.appendChild(btn);
                 buttons.push(btn);
             });
 
-            if(sites.length > 0)
-            {
-                iframe.src = sites[0][1].replace('%s', encodeURIComponent(username));
-                buttons[0].classList.add('active');
+            if(sites.length > 1) {
+                iframe.src = sites[1][1].replace('%s', encodeURIComponent(username));
+                buttons[1].classList.add('active');
             }
         }
 
         if(username)
-        setupPage();
+            setupPage();
         else
         {
             promptContainer.style.display = 'flex';
 
-            function submitUsername()
-            {
+            function submitUsername() {
                 const value = input.value.trim();
-
-                if(value)
-                {
+                if(value) {
                     username = value;
                     setupPage();
+                } else {
+                    alert("Please enter a Twitch channel name.");
                 }
-                else
-                alert("Please enter a Twitch channel name.");
             }
 
             submitBtn.onclick = submitUsername;
-
             input.addEventListener('keydown', (e) => {
                 if(e.key === 'Enter') submitUsername();
             });
