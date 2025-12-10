@@ -106,7 +106,8 @@
             iframe.style.display = 'block';
 
             let buttons = [];
-            sites.forEach((site, index) => {
+            
+            sites.forEach((site) => {
                 const btn = document.createElement('button');
                 btn.textContent = site[0];
                 btn.onclick = () => {
@@ -118,7 +119,8 @@
                 buttons.push(btn);
             });
 
-            if(sites.length > 0) {
+            if(sites.length > 0)
+            {
                 iframe.src = sites[0][1].replace('%s', encodeURIComponent(username));
                 buttons[0].classList.add('active');
             }
@@ -129,8 +131,11 @@
         else
         {
             promptContainer.style.display = 'flex';
-            submitBtn.onclick = () => {
+
+            function submitUsername()
+            {
                 const value = input.value.trim();
+
                 if(value)
                 {
                     username = value;
@@ -138,7 +143,13 @@
                 }
                 else
                 alert("Please enter a Twitch channel name.");
-            };
+            }
+
+            submitBtn.onclick = submitUsername;
+
+            input.addEventListener('keydown', (e) => {
+                if(e.key === 'Enter') submitUsername();
+            });
         }
     </script>
 </body>
